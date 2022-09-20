@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 /**
  * Implementación de una lista doblemente ligada
  * 
@@ -36,6 +38,9 @@ public class DoubleLinkedList<T> implements TDAList<T> {
 
   /** Nodo cola */
   public Node tail;
+
+  /** Longitud de la lista */
+  private int longitud;
   
   @Override
   public void add(int i, T e) throws IndexOutOfBoundsException {
@@ -50,6 +55,7 @@ public class DoubleLinkedList<T> implements TDAList<T> {
     if(head == null){
       head = newNode;
       tail = newNode;
+      longitud ++;
       return;
     }
 
@@ -58,6 +64,7 @@ public class DoubleLinkedList<T> implements TDAList<T> {
       newNode.next = head;
       head.prev = newNode;
       head = newNode;
+      longitud ++;
       return;
     }
 
@@ -66,11 +73,12 @@ public class DoubleLinkedList<T> implements TDAList<T> {
       newNode.prev = tail;
       tail.next = newNode;
       tail = newNode;
+      longitud ++;
       return;
     }
 
     // Para saber si insertamos desde head o insertamos desde tail
-    if(i < size()/2){ // Insertar desde head
+    if(i <= size()/2){ // Insertar desde head
       Node headIterator = head;
   
       for(int counter = 0; counter < i-1; counter++)
@@ -80,8 +88,20 @@ public class DoubleLinkedList<T> implements TDAList<T> {
       newNode.prev = headIterator;
       headIterator.next.prev = newNode;
       headIterator.next = newNode;
+      longitud ++;
+
     } else { // Insertar desde tail
-      // Se queda como ejercicio
+
+      Node tailIterator = tail;
+
+      for(int counter = size(); counter > i + 1 ; counter--)
+        tailIterator = tailIterator.prev;
+      
+      newNode.next = tailIterator;
+      newNode.prev = tailIterator.prev;
+      tailIterator.prev.next = newNode;
+      tailIterator.prev = newNode;
+      longitud ++;
     }
 
 
@@ -89,38 +109,139 @@ public class DoubleLinkedList<T> implements TDAList<T> {
 
   @Override
   public T remove(int i) throws IndexOutOfBoundsException {
-    return null;
+
+    // Pasan algún indice inválido
+    if(i < 0 || i > size()){
+      throw new IndexOutOfBoundsException("La posicion "+i+" esta fuera del rango valido. [0,"+size()+"]");
+    }
+
+
+    // Cuando la lista es vacía
+    if(head == null){
+    }
+
+    // Se elimina en la primera posición
+    if(i == 0) {
+      head = head.next;
+      head.prev = null;
+      longitud --;
+      return null;
+    }
+
+    // Eliminamos en la última posición
+    if(i == size()){
+      tail = tail.prev;
+      tail.next = null;
+      longitud --;
+      return null;
+    }
+
+    // Para saber si eliminamos desde head o insertamos desde tail
+    if(i < size()/2){ // Insertar desde head
+      Node headIterator = head;
+  
+      for(int counter = 0; counter < i; counter++){
+        headIterator = headIterator.next;
+      }
+      
+      headIterator.prev.next = headIterator.next;
+      headIterator.next.prev = headIterator.prev;
+      longitud --;
+      return null;
+
+    } else { // Insertar desde tail
+
+      Node tailIterator = tail;
+
+      for(int counter = size(); counter > i  ; counter--){
+        tailIterator = tailIterator.prev;
+      }
+      
+      tailIterator.prev.next = tailIterator.next;
+      tailIterator.next.prev = tailIterator.prev;
+      longitud --;
+      return null;
+    }
   }
 
   @Override
-  public void clear(){}
+  public void clear(){
+    tail = null;
+    head = null;
+    longitud = 0;
+  }
 
   @Override
   public T get(int i) throws IndexOutOfBoundsException {
-    return null;
+
+    // Pasan algún indice inválido
+    if(i < 0 || i > size()){
+      throw new IndexOutOfBoundsException("La posicion "+i+" esta fuera del rango valido. [0,"+size()+"]");
+    }
+
+    if(i < size()/2){ // Insertar desde head
+      Node headIterator = head;
+  
+      for(int counter = 0; counter < i-1; counter++){
+        headIterator = headIterator.next;
+      }
+      return headIterator.element;
+
+    } else { // Insertar desde tail
+      Node tailIterator = tail;
+
+      for(int counter = size(); counter > i+1  ; counter--){
+        tailIterator = tailIterator.prev;
+      }
+      return tailIterator.element;
+    }
   }
 
+  Node iteradorContains; //Nodo que se usará para el método contains.
   @Override
   public boolean contains(T e){
+
+    if (isEmpty()) {
+      return false;
+    }
+
+    iteradorContains = head;
+    for(int counter = 0; counter <= size()/2; counter ++){
+      if(e.equals(iteradorContains.element)){
+        return true;
+      }
+      iteradorContains = iteradorContains.next;
+    }
+  
+    iteradorContains = tail;
+    for(int counter = size(); counter >= size()/2; counter --){
+      if(e.equals(iteradorContains.element)){
+        return true;
+      }
+      iteradorContains = iteradorContains.prev;
+    }
+
     return false;
   }
 
   @Override
   public boolean isEmpty() {
+
+    if(head == null)
+      return true;
+    
+    if (tail == null)
+      return true;
+
+    if (longitud == 0)
+      return true;
+    
     return false;
   }
 
   @Override
   public int size() {
-    Node iterator = head;
-    int counter = 0;
-
-    while(iterator != null){
-      counter++;
-      iterator = iterator.next;
-    }
-
-    return counter;
+    return longitud;
   }
 
   /**
