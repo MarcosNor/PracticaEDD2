@@ -59,5 +59,34 @@ public class Test{
     listDouble.reverse();
     fin1 = System.currentTimeMillis(); // Determinando el fin de tiempo
     System.out.println("Tiempo que tardo en invertir la lista con 100000 elementos: " + (fin1-inicio1));
+
+    //simple
+    System.out.println("Pruebas SImpleLinkedList \n");
+    listaSimple = new SimpleLinkedList<>();
+    System.out.println("incersion al final de 1000 elementos: " + getTimeAddElementsSimpleList(1000, 0));
+    listaSimple.clear();
+    System.out.println("incersion al final de 100000 elementos: " + getTimeAddElementsSimpleList(100000, 0));
+    listaSimple.clear();
+    System.out.println("incersion al inicio de 1000 elementos: " + getTimeAddElementsSimpleList(1000, 0));
+    listaSimple.clear();
+    System.out.println("incersion al inicio de 100000 elementos: " + getTimeAddElementsSimpleList(100000, 0));
+    System.out.println("incersion posicion aleatoria de 1000 elementos: " + getTimeAddElementsSimpleList(1000, 200));
+    System.out.println("incersion posicion aleatoria de 100000 elementos: " + getTimeAddElementsSimpleList(100000, 777));
+    listaSimple.clear();
+    //simpleLinkedList no tiene el metodo reverse
+
+    //ArrayList
+    System.out.println("Pruebas ArrayList \n");
+    listaArray = new ArrayList<>();
+    System.out.println("incersion al final de 1000 elementos: " + getTimeAddElementsArrayList(1000, 0));
+    listaArray.clear();
+    System.out.println("incersion al final de 100000 elementos: " + getTimeAddElementsArrayList(100000, 0));
+    listaArray.clear();
+    System.out.println("incersion al inicio de 1000 elementos: " + getTimeAddElementsArrayList(1000, 0));
+    listaArray.clear();
+    System.out.println("incersion al inicio de 100000 elementos: " + getTimeAddElementsArrayList(100000, 0));
+    System.out.println("incersion posicion aleatoria de 1000 elementos: " + getTimeAddElementsArrayList(1000, 200));
+    System.out.println("incersion posicion aleatoria de 100000 elementos: " + getTimeAddElementsArrayList(100000, 777));
+    listaArray.clear();
   }
 }
