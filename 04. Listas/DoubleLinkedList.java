@@ -245,6 +245,10 @@ public class DoubleLinkedList<T> implements TDAList<T> {
     }
   }
 
+
+  //Ejercicio 2
+
+
   /**
    * Invierte el orden de una lista
    */
@@ -263,6 +267,10 @@ public class DoubleLinkedList<T> implements TDAList<T> {
       }
     }
   }
+
+
+  //Ejercicio 3
+
 
   /**
    * Mezcla dos listas alternadamente
@@ -296,6 +304,66 @@ public class DoubleLinkedList<T> implements TDAList<T> {
       tail = aux;
       aux = aux.next;
 
+    }
+  }
+
+
+  //Ejercicio 4
+
+
+  /**
+   * NodoDesdeElCentro
+   * @param B La posición que debemos buscar
+   * @return regresa null en caso de que B no se encuentre del centro de la lista al comienzo, si no regresa el valor de B
+   */
+  public T nodoDesdeElCentro(int B){
+    if (isEmpty()) {
+      return null;
+    }
+    if(B <= 0 || B > size()){
+      throw new IndexOutOfBoundsException("La posicion "+B+" esta fuera del rango valido [0,"+size()+"]");
+    }
+    if(B > size()/2){
+      return null;
+    }
+
+    Node tailIterator = tail;
+    for(int counter = size(); counter > size()/2  ; counter--){
+      tailIterator = tailIterator.prev;
+    }
+
+    Node centroIterator = tailIterator;
+    for(int counter = size()/2+1; counter > B+1; counter--){
+      centroIterator = centroIterator.prev;
+    } 
+    return centroIterator.element;
+
+  }
+
+
+  //Ejercicio 5
+
+
+  public class IteratorDoubleLinkedList implements Iterator<T> {
+
+    /** Conjunto de elementos de tipo T */
+    public Node doubleIterator = head;
+
+    /** Apuntador */
+    public int apuntador;
+
+    @Override
+    public boolean hasNext() {
+      return doubleIterator != null;
+    }
+
+    @Override
+    public T next() {
+      if (!hasNext()){
+        throw new NoSuchElementException();
+      }
+      doubleIterator = doubleIterator.next;
+      return doubleIterator.element;
     }
   }
 }
