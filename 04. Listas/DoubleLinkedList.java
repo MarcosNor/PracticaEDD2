@@ -39,7 +39,7 @@ public class DoubleLinkedList<T> implements TDAList<T> {
   /** Nodo cola */
   public Node tail;
 
-  /** Longitud de la lista */
+  /** Longitud de la lista para el método size */
   private int longitud;
   
   @Override
@@ -179,7 +179,7 @@ public class DoubleLinkedList<T> implements TDAList<T> {
       throw new IndexOutOfBoundsException("La posicion "+i+" esta fuera del rango valido. [0,"+size()+"]");
     }
 
-    if(i < size()/2){ // Insertar desde head
+    if(i < size()/2){ // Iterar desde head
       Node headIterator = head;
   
       for(int counter = 0; counter < i-1; counter++){
@@ -187,7 +187,7 @@ public class DoubleLinkedList<T> implements TDAList<T> {
       }
       return headIterator.element;
 
-    } else { // Insertar desde tail
+    } else { // Iterar desde tail
       Node tailIterator = tail;
 
       for(int counter = size(); counter > i+1  ; counter--){
@@ -254,5 +254,140 @@ public class DoubleLinkedList<T> implements TDAList<T> {
       iterator = iterator.next;
     }
   }
+
+  /**
+   * NodoDesdeElCentro
+   * @param B La posición que debemos buscar
+   * @return regresa null en caso de que B no se encuentre del centro de la lista al comienzo, si no regresa el valor de B
+   */
+  public T nodoDesdeElCentro(int B){
+    if (isEmpty()) {
+      return null;
+    }
+    if(B <= 0 || B > size()){
+      throw new IndexOutOfBoundsException("La posicion "+B+" esta fuera del rango valido [0,"+size()+"]");
+    }
+    if(B > size()/2){
+      return null;
+    }
+
+    Node tailIterator = tail;
+    for(int counter = size(); counter > size()/2  ; counter--){
+      tailIterator = tailIterator.prev;
+    }
+
+    Node centroIterator = tailIterator;
+    for(int counter = size()/2+1; counter > B+1; counter--){
+      centroIterator = centroIterator.prev;
+    } 
+    return centroIterator.element;
+
+  }
+
+
+  // public class IteradorContenedor<T> implements Iterator<T> {
+
+  //   /** Conjunto de elementos de tipo T */
+  //   public T[] valores;
+
+  //   /** Tope */
+  //   public int tope;
+
+  //   /** Apuntador */
+  //   public int apuntador;
+
+
+  //   public IteradorContenedor(T[] arr, int tope){
+  //     valores = arr;
+  //     this.tope = tope;
+  //     this.apuntador = 0;
+  //   }
+
+  //   @Override
+  //   public boolean hasNext(){
+  //     if(apuntador >= tope)
+  //       return false;
+  //     return true;
+  //   }
+
+  //   @Override
+  //   public T next(){
+  //     return valores[apuntador++];
+  //   }
+
+  // }
+
+  /** Iterador */
+
+  // public class IteratorDoubleLinkedList<T> implements Iterator<T> {
+
+  //   /** Conjunto de elementos de tipo T */
+  //   public Node doubleIterator;
+
+  //   /** Apuntador */
+  //   public int apuntador;
+
+  //   /**
+  //    * Crea un nuevo iterador
+  //    * @param arr el arreglo con los valores a recorrer
+  //    * @param tope el tope de los elementos válidos por recorrer
+  //    */
+  //   public IteratorDoubleLinkedList(T e){
+  //     this.apuntador = 0;
+
+  //   }
+
+  //   @Override
+  //   public boolean hasNext(){
+  //     if(apuntador >= size()){
+  //       return false;
+  //     }
+  //     return true;
+  //   }
+
+  //   @Override
+  //   public T next(){
+  //     if(!hasNext()){
+  //       throw new NoSuchElementException();
+  //     }
+  //     doubleIterator = doubleIterator.next;
+  //     return;
+  //   }
+
+  // }
+
+  // private class IteradorArreglo implements Iterador{
+  //   private int index;
+
+  // public IteradorArreglo(){
+  //   index = 0;
+  // }
+    
+  //   @Override
+  //   /**
+  //    * Metodo que indica si hay un elemento siguiente o no
+  //    * @return true si hay siguiente y false en caso contrario
+  //    */
+  //   public boolean hasNext(){
+  //   if(index < menuF.length){
+  //     if(menuF[index] != null){
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  //   }
+    
+  //   @Override
+  //   /**
+  //    * Metodo que regresa al elemento siguiente
+  //    * @return el elemento siguiente
+  //    */	    
+  //   public Object next(){
+  //   int devolver = index;
+  //   index++;
+  //   return menuF[devolver];
+  //   }
+    
+//Fin clase privada IteradorArreglo 
   
 }
