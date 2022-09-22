@@ -40,7 +40,7 @@ public class DoubleLinkedList<T> implements TDAList<T> {
   /** Nodo cola */
   public Node tail;
 
-  /** Longitud de la lista */
+  /** Longitud de la lista para el método size */
   private int longitud;
 
   @Override
@@ -186,7 +186,7 @@ public class DoubleLinkedList<T> implements TDAList<T> {
       }
       return headIterator.element;
 
-    } else { // Insertar desde tail
+    } else { // Iterar desde tail
       Node tailIterator = tail;
 
       for (int counter = size(); counter > i + 1; counter--) {
